@@ -2,6 +2,7 @@ package first.ali.Services;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,5 +25,22 @@ public class StudentsService {
 		return studentsRepositories.findAll();
 
 	}
+
+    public void addNewStudent(Students students){
+        Optional<Students> studentOptional = studentsRepositories.findById(students.getId());
+        if (studentOptional.isPresent())
+            throw new IllegalStateException("ID token");
+
+        studentsRepositories.save(students);
+
+
+    }
+    public void removeStudentX(Long studentId){
+      var isPresent =  studentsRepositories.existsById(studentId);
+      if (isPresent)
+        studentsRepositories.deleteById(studentId);
+      throw new  IllegalStateException( studentId+ "dose not exists");  
+
+    }
     
 }
